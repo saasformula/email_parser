@@ -1,7 +1,7 @@
 defmodule EmailParserCorpusTest do
   use ExUnit.Case, async: true
 
-  # Runs `EmailParser` against the mail-parser crate's test corpus
+  # Runs `EmailParser` against the vendored message corpus
   # (test/fixtures/corpus) and compares each result with its `.expected.exs`
   # golden file. See test/fixtures/corpus/README.md for provenance and
   # regenerate.exs to rebuild the goldens after an intentional change.

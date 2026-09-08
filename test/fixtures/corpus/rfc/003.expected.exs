@@ -13,6 +13,5 @@
       sha256: "265cb176d935e6496d6b49d7b365fd16d340d5d8085de20e94264768e55aebf2",
       content_type: "application/x-whatever"
     }
-  ],
-  nif: :identical
+  ]
 }

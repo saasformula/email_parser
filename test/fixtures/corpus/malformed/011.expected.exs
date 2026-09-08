@@ -1,1 +1,1 @@
-%{result: :ok, attachments: [], nif: :diverges}
+%{result: :ok, attachments: []}

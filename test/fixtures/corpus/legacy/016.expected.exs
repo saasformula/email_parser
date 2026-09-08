@@ -15,6 +15,5 @@
       sha256: "a8b4af6514723dd90bb0b0ad567c9b816a305ccbd886f761ecd924fb74f490be",
       content_type: "application/mac-binhex40"
     }
-  ],
-  nif: :raises
+  ]
 }

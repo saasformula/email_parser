@@ -4,10 +4,7 @@
 #     mix run test/fixtures/corpus/regenerate.exs
 #
 # Each golden records the extraction result with a SHA-256 per attachment
-# instead of the raw bytes, plus how the result related to the mail-parser
-# Rust NIF when the corpus was vendored (see README.md). The NIF is not
-# available in this repository, so that `nif:` field is preserved from the
-# existing golden — `:unverified` for fixtures that never had one.
+# instead of the raw bytes.
 #
 # Inspect the diff carefully after regenerating: a changed golden means the
 # observable behaviour of `EmailParser` changed.
@@ -25,28 +22,17 @@ summarize = fn attachments ->
   end)
 end
 
-previous_nif_status = fn golden_path ->
-  with true <- File.exists?(golden_path),
-       {%{nif: nif}, []} <- Code.eval_file(golden_path) do
-    nif
-  else
-    _missing -> :unverified
-  end
-end
-
 corpus_dir
 |> Path.join("*/*.eml")
 |> Path.wildcard()
 |> Enum.sort()
 |> Enum.each(fn eml_path ->
   raw = File.read!(eml_path)
-  golden_path = String.replace_suffix(eml_path, ".eml", ".expected.exs")
-  nif = previous_nif_status.(golden_path)
 
   expected =
     case EmailParser.extract_nested_attachments(raw) do
-      {:ok, attachments} -> %{result: :ok, nif: nif, attachments: summarize.(attachments)}
-      :error -> %{result: :error, nif: nif, attachments: []}
+      {:ok, attachments} -> %{result: :ok, attachments: summarize.(attachments)}
+      :error -> %{result: :error, attachments: []}
     end
 
   golden =
@@ -55,6 +41,7 @@ corpus_dir
     |> Code.format_string!()
     |> IO.iodata_to_binary()
 
+  golden_path = String.replace_suffix(eml_path, ".eml", ".expected.exs")
   File.write!(golden_path, golden <> "\n")
 end)
 

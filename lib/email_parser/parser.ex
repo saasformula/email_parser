@@ -3,8 +3,7 @@ defmodule EmailParser.Parser do
   # Parses a raw RFC 5322 message into a `EmailParser.Message` tree.
   #
   # The part classification (which parts become the text body, the HTML body
-  # or attachments) mirrors mail-parser's `parsers/message.rs`, so results
-  # stay interchangeable with the mail-parser Rust crate:
+  # or attachments) follows these rules:
   #
   #   * text parts are body candidates while they look inline (no attachment
   #     disposition, no `name` parameter outside the first part);
@@ -19,8 +18,7 @@ defmodule EmailParser.Parser do
 
   defmodule State do
     @moduledoc false
-    # Per-container parser state, the equivalent of mail-parser's
-    # `MessageParserState`.
+    # Per-container parser state.
     defstruct mime: :message,
               in_alternative: false,
               parts: 0,
@@ -76,7 +74,7 @@ defmodule EmailParser.Parser do
       end
     else
       # Note: a multipart content type without a boundary parameter falls
-      # through as an ordinary (binary) leaf part, like in mail-parser.
+      # through as an ordinary (binary) leaf part.
       flags = {inline?, text?, class}
       process_leaf(message, state, headers, content_type, disposition, flags, body, depth)
     end
@@ -119,7 +117,7 @@ defmodule EmailParser.Parser do
   end
 
   # A multipart/alternative that contained only text or only HTML parts
-  # offers them as both bodies, mirroring mail-parser.
+  # offers them as both bodies.
   defp fixup_alternative(
          message,
          %State{need_html: true, need_text: true} = child_state,
@@ -364,7 +362,7 @@ defmodule EmailParser.Parser do
     end
   end
 
-  ## MIME classification, the equivalent of mail-parser's `mime_type()`.
+  ## MIME classification.
   #
   # Returns `{multipart?, inline?, text?, class}`. A part without a
   # Content-Type defaults to text/plain, or to message/rfc822 inside a

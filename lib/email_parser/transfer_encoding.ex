@@ -3,7 +3,7 @@ defmodule EmailParser.TransferEncoding do
   # Content-Transfer-Encoding handling: base64 and quoted-printable decoding.
   #
   # Any other encoding (7bit, 8bit, binary, unknown tokens) passes the body
-  # through untouched, mirroring mail-parser. A failed decode returns `:error`
+  # through untouched. A failed decode returns `:error`
   # so the caller can fall back to the raw bytes.
 
   alias EmailParser.Header
@@ -41,8 +41,8 @@ defmodule EmailParser.TransferEncoding do
 
   defp decode_qp("", acc), do: {:ok, acc |> Enum.reverse() |> IO.iodata_to_binary()}
 
-  # CR never reaches the output: mail-parser's decoder normalizes CRLF to LF,
-  # inside escape sequences included.
+  # CR never reaches the output: the decoder normalizes CRLF to LF, inside
+  # escape sequences included.
   defp decode_qp("=\r" <> rest, acc), do: decode_qp("=" <> rest, acc)
   defp decode_qp("\r" <> rest, acc), do: decode_qp(rest, acc)
 

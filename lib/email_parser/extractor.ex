@@ -1,8 +1,7 @@
 defmodule EmailParser.Extractor do
   @moduledoc false
   # Walks a parsed message and collects its attachments, recursing into
-  # nested message/rfc822 parts, mirroring the mail-parser crate's
-  # attachment iteration.
+  # nested message/rfc822 parts.
 
   alias EmailParser.Attachment
   alias EmailParser.{Message, Parser, Part}

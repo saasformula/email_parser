@@ -5,7 +5,7 @@ defmodule EmailParserTest do
 
   alias EmailParser.Attachment
 
-  describe "parity with the mail_parser NIF suite" do
+  describe "attachment extraction from a real-world message" do
     test "extracts attachments from raw message" do
       raw_message = File.read!("test/fixtures/example.txt")
 
@@ -255,7 +255,7 @@ defmodule EmailParserTest do
                "Mit freundlichen Grüßen und einem sehr langen Satz, der hier weitergehen soll."
     end
 
-    test "normalizes CRLF to LF in quoted-printable parts, like the mail-parser crate" do
+    test "normalizes CRLF to LF in quoted-printable parts" do
       raw =
         """
         From: a@example.com

@@ -1,1 +1,1 @@
-%{result: :ok, attachments: [], nif: :identical}
+%{result: :ok, attachments: []}

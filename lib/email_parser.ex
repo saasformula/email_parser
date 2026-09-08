@@ -2,24 +2,18 @@ defmodule EmailParser do
   @moduledoc """
   Pure Elixir RFC 5322 / MIME email parser that extracts nested attachments.
 
-  The parsing behaviour mirrors the [mail-parser](https://github.com/stalwartlabs/mail-parser)
-  Rust crate (version 0.8.2) as wrapped by the
-  [mail_parser](https://github.com/kloeckner-i/mail_parser) NIF library, and
-  is validated against that crate's own test corpus (see
-  `test/fixtures/corpus`). This module exposes the public API; the parsing
-  internals live under `lib/email_parser`.
+  This module exposes the public API; the parsing internals live under
+  `lib/email_parser`. The parser is validated against a corpus of real-world
+  messages (see `test/fixtures/corpus`).
 
-  Known differences from the NIF-based `MailParser`:
+  Parsing is best-effort and never raises on malformed input:
 
-    * any binary is accepted, whereas the NIF raises `ArgumentError` on
-      input that is not valid UTF-8;
-    * fewer legacy charsets are converted to UTF-8 (UTF-8/ASCII, ISO-8859-1,
-      windows-1252 and UTF-16; the NIF also handles the remaining ISO-8859-x,
-      windows-125x, KOI8 and UTF-7 families). Text in an unsupported charset
-      is kept with unmappable bytes replaced by `U+FFFD`;
-    * messages with a malformed MIME structure are recovered on a best-effort
-      basis in both implementations, but the fallback parts they produce may
-      differ.
+    * any binary is accepted, valid UTF-8 or not;
+    * text parts in UTF-8/ASCII, ISO-8859-1, windows-1252 and UTF-16 are
+      converted to UTF-8; text in other charsets is kept with unmappable
+      bytes replaced by `U+FFFD`;
+    * parts with a broken transfer encoding fall back to their raw bytes, and
+      malformed MIME structures are recovered as far as possible.
   """
 
   alias EmailParser.Attachment

@@ -1,8 +1,7 @@
 defmodule EmailParser.Message do
   @moduledoc false
   # A parsed message: an ordered list of MIME parts plus the part ids that
-  # make up the text body, the HTML body and the attachments — the same
-  # shape as mail-parser's `Message` struct.
+  # make up the text body, the HTML body and the attachments.
 
   alias EmailParser.Part
 

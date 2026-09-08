@@ -13,6 +13,5 @@
       sha256: "e69c8589b945fbf7ffeb60fc1b11ac92cb14829c87ca3573af700f519a8541f5",
       content_type: "image/png"
     }
-  ],
-  nif: :raises
+  ]
 }

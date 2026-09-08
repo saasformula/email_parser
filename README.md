@@ -1,7 +1,7 @@
 # EmailParser
 
 Pure Elixir RFC 5322 / MIME email parser that extracts nested attachments.
-No NIFs, no dependencies.
+No native code, no dependencies.
 
 ```elixir
 {:ok, attachments} = EmailParser.extract_nested_attachments(raw_message)
@@ -23,10 +23,8 @@ parseable headers at all.
 ## What it handles
 
 * multipart trees of any shape (`mixed`, `alternative`, `related`, `digest`,
-  `signed`, ...), with the body/attachment classification of the
-  [mail-parser](https://github.com/stalwartlabs/mail-parser) Rust crate:
-  text parts that render as the message body are not reported as attachments,
-  while everything else — inline images included — is;
+  `signed`, ...): text parts that render as the message body are not reported
+  as attachments, while everything else — inline images included — is;
 * base64 and quoted-printable transfer encodings, falling back to the raw
   bytes when a part is incorrectly encoded;
 * RFC 2047 encoded words and RFC 2231 extended parameters/continuations in
@@ -35,18 +33,17 @@ parseable headers at all.
   UTF-16 text (other charsets are kept with unmappable bytes replaced by
   `U+FFFD`);
 * nested `message/rfc822` attachments, unencoded or encoded, with encoded
-  nesting limited to 3 levels.
+  nesting limited to 3 levels;
+* any binary as input — invalid UTF-8 and malformed MIME structures are
+  handled without raising.
 
-## Compatibility and testing
+## Testing
 
-The behaviour intentionally mirrors the mail-parser Rust crate (0.8.2) as
-wrapped by the [mail_parser](https://github.com/kloeckner-i/mail_parser) NIF
-library, so this package can serve as a drop-in, NIF-free replacement. It is
-tested against the crate's own 95-message corpus (vendored under
-[test/fixtures/corpus](test/fixtures/corpus)): every well-formed message the
-NIF can parse produces byte-identical attachments, and the known differences
-(non-UTF-8 input, charset breadth, malformed-MIME recovery) are documented in
-the `EmailParser` moduledoc and recorded per fixture in the corpus goldens.
+Besides its unit suite, the parser runs against a vendored corpus of 95
+real-world messages — RFC samples, output of historical mail clients,
+charset-heavy messages and deliberately malformed ones — each with a golden
+file describing the expected attachments. See
+[test/fixtures/corpus](test/fixtures/corpus).
 
 ## License
 

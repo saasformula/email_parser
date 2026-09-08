@@ -3,7 +3,7 @@ defmodule EmailParser.Header do
   # Splits a raw RFC 5322 message into its header block and body, unfolding
   # folded header lines along the way.
   #
-  # Mirrors mail-parser's `parse_headers`: lines without a colon are skipped,
+  # Parsing is lenient: lines without a colon are skipped,
   # a blank (or whitespace-only) line terminates the header block, and hitting
   # the end of input before a blank line leaves the message without a body.
 

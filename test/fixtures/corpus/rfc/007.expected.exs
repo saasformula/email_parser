@@ -25,6 +25,5 @@
       sha256: "44bd7ae60f478fae1061e11a7739f4b94d1daf917982d33b6fc8a01a63f89c21",
       content_type: "application/x-excel"
     }
-  ],
-  nif: :identical
+  ]
 }

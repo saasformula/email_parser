@@ -19,6 +19,5 @@
       sha256: "bba88d3935e2586e376a64bdeaf52c11f54ca8b04e8c3d650f092f0be5ea3cfe",
       content_type: "message/external-body"
     }
-  ],
-  nif: :identical
+  ]
 }

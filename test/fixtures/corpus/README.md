@@ -1,12 +1,11 @@
 # Message corpus
 
-Real-world RFC 5322 test messages vendored from the
-[mail-parser](https://github.com/stalwartlabs/mail-parser) Rust crate
-(version 0.8.2, the version whose behaviour `EmailParser` mirrors),
-`tests/` directory. mail-parser is © Stalwart Labs, licensed
-Apache-2.0 OR MIT; the fixtures are used here under the MIT option,
-matching this repository's [LICENSE](../../../LICENSE). Only the `.eml`
-inputs are vendored; the goldens are our own.
+A corpus of 95 real-world RFC 5322 test messages exercising the parser
+end to end. The `.eml` inputs originate from the test suite of the
+[mail-parser](https://github.com/stalwartlabs/mail-parser) project by
+Stalwart Labs (licensed Apache-2.0 OR MIT; used here under the MIT option,
+matching this repository's [LICENSE](../../../LICENSE)). The golden files
+are our own.
 
 ## Layout
 
@@ -22,25 +21,14 @@ Next to every `NNN.eml` sits `NNN.expected.exs`: the golden result of
 attachment recorded as name, content type, byte size and SHA-256 of the
 content bytes. `email_parser_corpus_test.exs` asserts against these.
 
-Each golden also records how the result related to the Rust NIF wrapping
-mail-parser ([mail_parser](https://github.com/kloeckner-i/mail_parser)) when
-the corpus was vendored:
-
-* `nif: :identical` — the NIF returned byte-identical attachments;
-* `nif: :raises` — the NIF cannot parse the message (it raises
-  `ArgumentError` on input that is not valid UTF-8);
-* `nif: :diverges` — malformed messages that both implementations recover
-  on a best-effort basis, with different fallback parts.
-
 ## Regenerating the goldens
 
 ```
 mix run test/fixtures/corpus/regenerate.exs
 ```
 
-The `nif:` field is carried over from the existing golden (the NIF is not a
-dependency of this repository). Only commit a regenerated golden when the
-behaviour change it captures is intentional.
+Only commit a regenerated golden when the behaviour change it captures is
+intentional.
 
 These files are byte-exact test inputs (some deliberately contain bare CR/LF
 line endings or non-UTF-8 bytes); `.gitattributes` marks them `-text` so git

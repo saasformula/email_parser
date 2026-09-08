@@ -4,8 +4,7 @@ defmodule EmailParser.Charset do
   #
   # Supports the charsets that can be handled without external tables
   # (UTF-8/ASCII, ISO-8859-1, windows-1252 and UTF-16); anything else is
-  # decoded as UTF-8 with invalid bytes replaced by U+FFFD, matching
-  # mail-parser's fallback behaviour for unknown charsets.
+  # decoded as UTF-8 with invalid bytes replaced by U+FFFD.
 
   @replacement "�"
 
