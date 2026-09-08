@@ -1,0 +1,5 @@
+# Corpus messages and fixtures are byte-exact test inputs; never normalize
+# line endings.
+test/fixtures/corpus/**/*.eml -text
+test/fixtures/example.txt -text
+test/fixtures/sample.pdf -text

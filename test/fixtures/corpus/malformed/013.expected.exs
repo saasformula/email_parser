@@ -1,0 +1,24 @@
+%{
+  result: :ok,
+  attachments: [
+    %{
+      name: "untitled",
+      byte_size: 0,
+      sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      content_type: "multipart/mixed"
+    },
+    %{
+      name: "untitled",
+      byte_size: 0,
+      sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      content_type: "multipart/mixed"
+    },
+    %{
+      name: "untitled",
+      byte_size: 0,
+      sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      content_type: "multipart/mixed"
+    }
+  ],
+  nif: :diverges
+}
