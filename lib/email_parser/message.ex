@@ -20,6 +20,11 @@ defmodule EmailParser.Message do
   def part(%__MODULE__{parts: parts}, id), do: Enum.at(parts, id)
 
   @doc false
+  # The message's own entity: the parser always adds it as the first part.
+  @spec root_part(t) :: Part.t() | nil
+  def root_part(%__MODULE__{} = message), do: part(message, 0)
+
+  @doc false
   @spec add_part(t, Part.t()) :: t
   def add_part(%__MODULE__{} = message, %Part{} = part),
     do: %{message | parts: message.parts ++ [part]}

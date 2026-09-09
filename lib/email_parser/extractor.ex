@@ -6,8 +6,6 @@ defmodule EmailParser.Extractor do
   alias EmailParser.Attachment
   alias EmailParser.{Message, Parser, Part}
 
-  @untitled "untitled"
-
   @spec extract_nested_attachments(binary) :: {:ok, [Attachment.t()]} | :error
   def extract_nested_attachments(raw_message) when is_binary(raw_message) do
     case Parser.parse(raw_message) do
@@ -29,7 +27,7 @@ defmodule EmailParser.Extractor do
 
   defp to_attachment(%Part{} = part) do
     %Attachment{
-      name: Part.attachment_name(part) || @untitled,
+      name: Part.attachment_name(part) || Attachment.untitled(),
       content_type: Part.content_type_string(part),
       content_bytes: Part.contents(part)
     }
