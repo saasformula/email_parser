@@ -7,7 +7,7 @@ defmodule EmailParser.Part do
   #   * `{:message, %EmailParser.Message{}}` — a nested message/rfc822
   #   * `{:multipart, [part_id]}` — a multipart container
 
-  alias EmailParser.{ContentType, Header, Message}
+  alias EmailParser.{Charset, ContentType, Header, Message}
 
   defstruct headers: [],
             content_type: nil,
@@ -51,8 +51,19 @@ defmodule EmailParser.Part do
   """
   @spec attachment_name(t) :: String.t() | nil
   def attachment_name(%__MODULE__{} = part) do
-    ContentType.param(part.content_disposition, "filename") ||
-      ContentType.param(part.content_type, "name")
+    name =
+      ContentType.param(part.content_disposition, "filename") ||
+        ContentType.param(part.content_type, "name")
+
+    name && printable(name)
+  end
+
+  # Header parameters carry no charset of their own — RFC 2047 and RFC 2231
+  # exist for names that need one — but mailers do write raw 8-bit bytes into
+  # them. Those read as UTF-8 when they form valid UTF-8 and as ISO-8859-1
+  # otherwise, so the name is always a string the caller can use.
+  defp printable(name) do
+    if String.valid?(name), do: name, else: Charset.to_utf8(name, "iso-8859-1")
   end
 
   @doc ~S(Returns the content type formatted as `"type/subtype"` or `"type"`.)

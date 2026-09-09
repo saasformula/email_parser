@@ -14,9 +14,7 @@
       content_type: "text/plain"
     },
     %{
-      name:
-        <<72, 97, 115, 101, 110, 117, 110, 100, 70, 114, 246, 115, 99, 104, 101, 46, 116, 120,
-          116>>,
+      name: "HasenundFrösche.txt",
       byte_size: 755,
       sha256: "a8fc60eff6a6eee33a22c97e3f3e1ecccc53b83dcd2470ffaa1cabb10fac4dc7",
       content_type: "text/plain"

@@ -10,4 +10,11 @@ defmodule EmailParser.Attachment do
         }
 
   defstruct [:name, :content_type, :content_bytes]
+
+  @untitled "untitled"
+
+  @doc false
+  # The name given to an attachment the message does not name.
+  @spec untitled() :: String.t()
+  def untitled, do: @untitled
 end
