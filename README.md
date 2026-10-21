@@ -15,14 +15,28 @@ No native code, no dependencies.
 ] = attachments
 ```
 
-`extract_nested_attachments/1` parses a raw message on a best-effort basis and
-returns every attachment, recursing into nested `message/rfc822` parts
-(forwarded messages). It returns `:error` only when the input contains no
-parseable headers at all, as every function here does.
+`EmailParser.extract_nested_attachments/1` parses a raw message on a
+best-effort basis and returns every attachment, recursing into nested
+`message/rfc822` parts (forwarded messages). It returns `:error` only when the
+input contains no parseable headers at all, as every function here does.
+
+## Installation
+
+Add `email_parser` to your dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:email_parser, "~> 0.1.0"}
+  ]
+end
+```
+
+Documentation is published at <https://hexdocs.pm/email_parser>.
 
 ## Writing the attachments out
 
-`extract_attachments_to_disk/2` writes them instead of returning their bytes,
+`EmailParser.extract_attachments_to_disk/2` writes them instead of returning their bytes,
 and answers with the names of the files it wrote:
 
 ```elixir
@@ -43,7 +57,7 @@ with it.
 
 ## Reading the message itself
 
-`strip_attachments/1` answers with the message minus its attachments — the
+`EmailParser.strip_attachments/1` answers with the message minus its attachments — the
 header fields and the bodies:
 
 ```elixir
@@ -90,11 +104,13 @@ Besides its unit suite, the parser runs against a vendored corpus of 95
 real-world messages — RFC samples, output of historical mail clients,
 charset-heavy messages and deliberately malformed ones — each with a golden
 file describing the expected attachments. See
-[test/fixtures/corpus](test/fixtures/corpus). Every corpus message is also run
-through `extract_attachments_to_disk/2` and `strip_attachments/1`.
+[test/fixtures/corpus](https://github.com/saasformula/email_parser/tree/main/test/fixtures/corpus).
+Every corpus message is also run through `extract_attachments_to_disk/2` and
+`strip_attachments/1`.
 
 ## License
 
 MIT — see [LICENSE](LICENSE). The vendored test corpus originates from the
 mail-parser project by Stalwart Labs (Apache-2.0 OR MIT); see
-[test/fixtures/corpus/README.md](test/fixtures/corpus/README.md).
+[test/fixtures/corpus/README.md](https://github.com/saasformula/email_parser/blob/main/test/fixtures/corpus/README.md).
+The corpus is not part of the Hex package.
