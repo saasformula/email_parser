@@ -4,7 +4,8 @@ defmodule EmailParser do
 
   This module exposes the public API; the parsing internals live under
   `lib/email_parser`. The parser is validated against a corpus of real-world
-  messages (see `test/fixtures/corpus`).
+  messages (see
+  [`test/fixtures/corpus`](https://github.com/saasformula/email_parser/tree/main/test/fixtures/corpus)).
 
   Parsing is best-effort and never raises on malformed input:
 
